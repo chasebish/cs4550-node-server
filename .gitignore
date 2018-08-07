@@ -1,6 +1,6 @@
 
-# dependencies
 /node_modules
-
-# run config
+npm-debug.log
+.DS_Store
+/*.env
 .vscode/

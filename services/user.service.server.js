@@ -9,18 +9,13 @@ module.exports = app => {
             password: user.password
         }
 
-        console.log(newUser)
-
         userModel.findUserByUsername(user.username)
             .then(user => {
-                console.log('out if')
                 if (!user) {
-                    console.log('1st')
                     return userModel.createUser(newUser)
                 }
             })
             .then(user => {
-                console.log('2nd')
                 req.session['currentUser'] = user
                 res.send(req.session['currentUser'])
             })
