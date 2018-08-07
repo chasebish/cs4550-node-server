@@ -1,9 +1,14 @@
 const express = require('express')
+const favicon = require('serve-favicon')
+const path = require('path')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 
 const app = express()
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+app.use(express.static('public'))
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:4200')
