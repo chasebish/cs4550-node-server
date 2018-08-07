@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const app = express()
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4200')
     res.header('Access-Control-Allow-Credentials', 'true')
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
@@ -22,7 +22,8 @@ app.use(session({
     secret: 'any string'
 }))
 
-mongoose.connect('mongodb://localhost/webdev')
+// mongoose.connect('mongodb://localhost/webdev')
+mongoose.connect('mongodb://chase:espresso8@ds115472.mlab.com:15472/heroku_bb57t8vs')
 
 const userService = require('./services/user.service.server')
 userService(app)
