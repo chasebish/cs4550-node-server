@@ -48,11 +48,7 @@ module.exports = app => {
         res.send(200)
     }
 
-    const profile = (req, res) => {
-        res.send(200)
-    }
-
-    const currentUser = (req, res) => {
+    const getUser = (req, res) => {
         const currentUser = req.session['currentUser']
         if (currentUser) {
             userModel.findUserByIdExpanded(currentUser._id)
@@ -60,6 +56,11 @@ module.exports = app => {
         } else {
             res.sendStatus(404)
         }
+    }
+
+    const deleteUser = (req) => {
+        const currentUser = req.session['currentUser']
+        userModel.deleteUser(currentUser)
     }
 
     const findAllUsers = (req, res) => {
@@ -73,7 +74,7 @@ module.exports = app => {
     app.post('/api/register', register)
     app.post('/api/logout', logout)
     app.put('/api/profile', updateUser)
-    app.get('/api/profile', profile)
-    app.get('/api/currentUser', currentUser)
+    app.get('/api/profile', getUser)
+    app.delete('/api/profile', deleteUser)
     app.get('/api/user', findAllUsers)
 }
