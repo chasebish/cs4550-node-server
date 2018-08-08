@@ -28,7 +28,7 @@ const deleteUser = userId =>
     userModel.remove({ _id: userId })
 
 const updateUser = (userId, user) =>
-    userModel.update({ _id: userId }, { $set: user })
+    userModel.update({ _id: userId }, { $set: user }, { upsert: true })
 
 module.exports = {
     findAllUsers,

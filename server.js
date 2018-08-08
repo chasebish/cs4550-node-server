@@ -24,77 +24,13 @@ app.use(bodyParser.json())
 app.use(session({
     resave: false,
     saveUninitialized: true,
-    secret: 'any string'
+    secret: 'any string',
+    maxAge: Date.now() + (30 * 1800000)
 }))
 
-// mongoose.connect('mongodb://localhost/webdev')
 mongoose.connect('mongodb://chase:espresso8@ds115472.mlab.com:15472/heroku_bb57t8vs')
 
-const userService = require('./services/user.service.server')
-userService(app)
-
-const sectionService = require('./services/section.service.server')
-sectionService(app)
+require('./services/user.service.server')(app)
+require('./services/section.service.server')(app)
 
 app.listen(process.env.PORT || 3000)
-
-// const login = (req, res) => {
-//     const user = req.body
-//     userModel.findOne({ username: user.username, password: user.password})
-//         .then(localUser => {
-//             req.session['currentUser'] = localUser
-//             res.send(req.session)
-//         })
-// }
-
-// const register = (req, res) => {
-//     const user = req.body
-//     const newUser = {
-//         username: user.username,
-//         password: user.password
-//     }
-
-//     userModel.find
-
-// }
-
-// const currentUser = (req, res) => {
-//     res.send(req.session)
-// }
-
-// const setSession = (req, res) => {
-//     const name = req.params['name']
-//     const value = req.params['value']
-//     req.session[name] = value
-//     res.send(req.session)
-// }
-
-// const getSession = (req, res) => {
-//     const name = req.params['name']
-//     const value = req.session[name]
-//     res.send(value)
-// }
-
-// app.post('/api/register', register)
-
-// app.post('/api/login', login)
-// app.get('/api/currentUser', currentUser)
-
-// app.get('/api/session/set/:name/:value', setSession)
-// app.get('/api/session/get/:name', getSession)
-
-// const userSchema = mongoose.Schema({
-//     username: String,
-//     password: String,
-//     firstName: String,
-//     lastName: String
-// }, { collection: 'user' })
-
-// const userModel = mongoose.model('UserModel', userSchema)
-
-// app.get('/api/user', (req, res) => {
-//     userModel.find()
-//         .then(users => res.send(users))
-// })
-
-// app.listen(3000)

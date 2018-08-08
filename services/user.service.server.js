@@ -13,11 +13,13 @@ module.exports = app => {
             .then(user => {
                 if (!user) {
                     return userModel.createUser(newUser)
+                        .then(user => {
+                            req.session['currentUser'] = user
+                            res.send(req.session['currentUser'])
+                        })
+                } else {
+                    res.sendStatus(404)
                 }
-            })
-            .then(user => {
-                req.session['currentUser'] = user
-                res.send(req.session['currentUser'])
             })
     }
 
@@ -29,9 +31,16 @@ module.exports = app => {
                     req.session['currentUser'] = user
                     res.send(req.session['currentUser'])
                 } else {
-                    res.send(0)
+                    res.sendStatus(404)
                 }
             })
+    }
+
+    const updateUser = (req, res) => {
+        const currentUser = req.session['currentUser']
+        const updatedUser = req.body
+        userModel.updateUser(currentUser, updatedUser)
+            .then(user => res.send(user), () => res.send(404))
     }
 
     const logout = (req, res) => {
@@ -49,7 +58,7 @@ module.exports = app => {
             userModel.findUserByIdExpanded(currentUser._id)
                 .then(user => res.send(user))
         } else {
-            res.sendStatus(403)
+            res.sendStatus(404)
         }
     }
 
@@ -63,6 +72,7 @@ module.exports = app => {
     app.post('/api/login', login)
     app.post('/api/register', register)
     app.post('/api/logout', logout)
+    app.put('/api/profile', updateUser)
     app.get('/api/profile', profile)
     app.get('/api/currentUser', currentUser)
     app.get('/api/user', findAllUsers)
