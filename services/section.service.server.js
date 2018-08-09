@@ -1,17 +1,5 @@
 module.exports = app => {
     const sectionModel = require('../models/sections/section.model.server')
-    // const enrollModel = require('../models/enroll/enroll.model.server')
-
-    // const enrollUser = (req, res) => {
-    //     const currentUser = req.session['currentUser']
-    //     if (currentUser) {
-    //         sectionModel
-    //             .enroll(currentUser._id, req.params['sectionId'])
-    //             .then(() => res.send(currentUser))
-    //     } else {
-    //         res.sendStatus(404)
-    //     }
-    // }
 
     const createSection = (req, res) => {
         sectionModel
@@ -19,15 +7,22 @@ module.exports = app => {
             .then(section => res.send(section))
     }
 
+    const getSection = (req, res) => {
+        const sectionId = req.params['sectionId']
+        sectionModel.findSection(sectionId)
+            .then(section => res.send(section), () => res.sendStatus(404))
+    }
+
     const deleteSection = (req, res) => {
-        const section = req.params['sectionId']
-        sectionModel.deleteSection(section)
-            .then(sections => res.send(sections))
+        const sectionId = req.params['sectionId']
+        sectionModel.deleteSection(sectionId)
+            .then(() => res.send(200), () => res.send(404))
     }
 
     const updateSection = (req, res) => {
-        const section = req.params['sectionId']
-        sectionModel.updateSection(section, req.body)
+        const sectionId = req.params['sectionId']
+        const section = req.body
+        sectionModel.updateSection(sectionId, section)
             .then(section => res.send(section), () => res.sendStatus(404))
     }
 
@@ -44,17 +39,11 @@ module.exports = app => {
             .then(sections => res.send(sections))
     }
 
-    // const enrollStudent = (req, res) => {
-    //     const sectionId = req.params['sectionId']
-    //     sectionModel.findSection(sectionId)
-    //         .then(section)
-    // }
-
-
     app.post('/api/course/:courseId/section', createSection)
+    app.get('/api/course/:courseId/section', findSectionsForCourse)
+    app.get('/api/section/:sectionId', getSection)
     app.delete('/api/section/:sectionId', deleteSection)
     app.put('/api/section/:sectionId', updateSection)
-    app.get('/api/course/:courseId/section', findSectionsForCourse)
     app.get('/api/section', findAllSections)
 
 }
