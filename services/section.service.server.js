@@ -2,8 +2,7 @@ module.exports = app => {
     const sectionModel = require('../models/sections/section.model.server')
 
     const createSection = (req, res) => {
-        sectionModel
-            .createSection(req.body)
+        sectionModel.createSection(req.body)
             .then(section => res.send(section))
     }
 
@@ -39,11 +38,25 @@ module.exports = app => {
             .then(sections => res.send(sections))
     }
 
+    const addSeat = (req, res) => {
+        const sectionId = req.params['sectionId']
+        sectionModel.addSeat(sectionId)
+            .then(() => res.sendStatus(200), () => res.sendStatus(404))
+    }
+
+    const subSeat = (req, res) => {
+        const sectionId = req.params['sectionId']
+        sectionModel.subSeat(sectionId)
+            .then(() => res.sendStatus(200), () => res.sendStatus(404))
+    }
+
     app.post('/api/course/:courseId/section', createSection)
     app.get('/api/course/:courseId/section', findSectionsForCourse)
     app.get('/api/section/:sectionId', getSection)
     app.delete('/api/section/:sectionId', deleteSection)
     app.put('/api/section/:sectionId', updateSection)
     app.get('/api/section', findAllSections)
+    app.put('/api/section/:sectionId/addseat', addSeat)
+    app.put('/api/section/:sectionId/subseat', subSeat)
 
 }

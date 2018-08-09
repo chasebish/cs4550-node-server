@@ -32,5 +32,6 @@ mongoose.connect('mongodb://chase:espresso8@ds115472.mlab.com:15472/heroku_bb57t
 
 require('./services/user.service.server')(app)
 require('./services/section.service.server')(app)
+require('./services/enroll.service.server')(app)
 
 app.listen(process.env.PORT || 3000)
