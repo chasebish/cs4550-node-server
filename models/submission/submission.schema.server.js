@@ -13,27 +13,32 @@ module.exports = mongoose.Schema({
         ref: 'QuizModel'
     },
 
-    // student's answers
-    answers: [{
-        // question schema
-        title: String,
-        points: Number,
-        description: String,
-        questionType: {
-            type: String,
-            enum: ['ESSAY', 'FILL_BLANKS', 'TRUE_FALSE', 'CHOICE']
-        },
+    // array of student's answers
+    answers: [
+        {
+            // question schema
+            title: String,
+            points: Number,
+            description: String,
+            questionType: {
+                type: String,
+                enum: ['ESSAY', 'FILL_BLANKS', 'TRUE_FALSE', 'CHOICE']
+            },
 
-        blanks: [String],
-        choices: [{
-            text: String,
-            choiceValue: String
-        }],
+            blanks: [String],
+            choices: [{
+                text: String,
+                choiceValue: String
+            }],
 
-        essayAnswer: String,
-        fillBlanksAnswers: {},
-        trueFalseAnswer: Boolean,
-        multipleChoiceAnswer: String
+            essayAnswer: String,
+            fillBlanksAnswers: {},
+            trueFalseAnswer: Boolean,
+            multipleChoiceAnswer: String
+        }
+    ],
 
-    }]
+    // when it was submitted
+    timestamp: Date
+
 }, { collection: 'submission' })
