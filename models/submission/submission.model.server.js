@@ -33,7 +33,6 @@ const createSubmission = (submission, student) => {
         }
         else if (type === 'FILL_BLANKS') {
             answer.fillBlanksAnswers = question.fillBlanksAnswers
-            console.log(answer.fillBlankAnswers)
         }
         else if (type === 'TRUE_FALSE') {
             answer.trueFalseAnswer = question.trueFalseAnswer
@@ -55,8 +54,6 @@ const createSubmission = (submission, student) => {
         answers,
         timestamp
     }
-
-    console.log(finalSubmission.answers)
 
     return submissionModel.create(finalSubmission)
 
