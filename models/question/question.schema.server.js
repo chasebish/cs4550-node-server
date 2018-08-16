@@ -19,7 +19,7 @@ module.exports = mongoose.Schema({
 
     // answers
     essayAnswer: String,
-    fillBlanksAnswers: {},
+    fillBlanksAnswers: Object,
     trueFalseAnswer: Boolean,
     multipleChoiceAnswer: String
 

@@ -8,7 +8,7 @@ const createQuiz = quiz => quizModel.create(quiz)
 const findAllQuizzes = () => quizModel.find()
 
 const findQuizById = quizId =>
-    quizModel.findOne({ _id: quizId }).populate('questions').exec()
+    quizModel.findOne({ _id: quizId })
 
 const updateQuiz = (quizId, newQuiz) =>
     quizModel.update({ _id: quizId }, { $set: newQuiz })

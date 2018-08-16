@@ -5,17 +5,20 @@ const submissionModel = mongoose.model('SubmissionModel', submissionSchema)
 
 const findSubmissions = (quizId, studentId) => submissionModel.find({ quiz: quizId, student: studentId })
 
-const findSubmission = (quizId, studentId) => submissionModel.findOne({ quiz: quizId, student: studentId })
+const findSubmission = (submissionId, studentId) => submissionModel.findOne({ _id: submissionId, student: studentId })
 
-const createSubmission = (quiz, student) => {
 
-    const timestamp = new Date()
-    const questions = quiz.questions
+const createSubmission = (submission, student) => {
+
+    const quiz = submission.quiz
+    const rawAnswers = submission.answers
+    const timestamp = submission.timestamp
+
     let answers = []
 
-    questions.forEach(question => {
+    rawAnswers.forEach(question => {
 
-        const type = question.type
+        const type = question.questionType
         let answer = {
             title: question.title,
             points: question.points,
@@ -29,7 +32,8 @@ const createSubmission = (quiz, student) => {
             answer.essayAnswer = question.essayAnswer
         }
         else if (type === 'FILL_BLANKS') {
-            answer.fillBlankAnswers = question.fillBlankAnswers
+            answer.fillBlanksAnswers = question.fillBlanksAnswers
+            console.log(answer.fillBlankAnswers)
         }
         else if (type === 'TRUE_FALSE') {
             answer.trueFalseAnswer = question.trueFalseAnswer
@@ -42,18 +46,19 @@ const createSubmission = (quiz, student) => {
         }
 
         answers.push(answer)
-        console.log(answer)
 
     })
 
-    const submission = {
+    const finalSubmission = {
         student,
         quiz,
         answers,
         timestamp
     }
 
-    return submissionModel.create(submission)
+    console.log(finalSubmission.answers)
+
+    return submissionModel.create(finalSubmission)
 
 }
 

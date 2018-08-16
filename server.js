@@ -35,5 +35,7 @@ require('./services/user.service.server')(app)
 require('./services/section.service.server')(app)
 require('./services/enroll.service.server')(app)
 require('./services/quiz.service.server')(app)
+require('./services/submission.service.server')(app)
+require('./services/question.service.server')(app)
 
 app.listen(process.env.PORT || 3000)
